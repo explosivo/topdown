@@ -1,12 +1,12 @@
 package com.redblue.topdown.entity;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.redblue.topdown.Input;
+import com.redblue.topdown.Topdown;
 import com.redblue.topdown.sprites.Sprites;
 
 public class Zombie extends Creature{
@@ -16,8 +16,9 @@ public class Zombie extends Creature{
 	Input input;
 	int dir;
 	int dirTime;
-	static int number = 0;
+	public static int number = 0;
 	int thisNumber;
+	boolean alive = true;
 	Josh josh;
 	Sprites sprites = new Sprites();
 	BufferedImage zombied1 = sprites.getSprite(sprites.ZOMBIED1);
@@ -50,12 +51,29 @@ public class Zombie extends Creature{
 		sprite = zombied1;
 	}
 	
-	public void tick(){
-		time++;
-		
-		if(x >= 0 && x <= 640/3 && y >= 0 && y <= 480/3){
-			isOnScreen = true;
+	public boolean isAlive(){
+		return alive;
+	}
+
+	public void remove(){
+		if (alive){
+			number--;
+			alive = false;
 		}
+	}
+	
+	public void render(Graphics g){
+		if (alive){
+			g.drawImage(sprite, x, y, null);
+			g.setColor(Color.white);
+		}
+		//g.setFont(new Font("Aerial", 10, 10));
+		//g.drawString(String.valueOf(thisNumber), x - 5, y + 20);
+	}
+	
+	public void tick(){
+		if (alive){
+			time++;
 		
 		if (dirTime == 0){
 			dirTime = random.nextInt((100) +1);
@@ -132,30 +150,11 @@ public class Zombie extends Creature{
 				x-=speed;
 			}
 			dirTime--;
-		if (input.downPressed){
-			y-=speed;
-		}
-		if (input.upPressed){
-			y+=speed;
-		}
-		if (input.rightPressed){
-			x-=speed;
-		}
-		if(input.leftPressed){
-			x+=speed;
-		}
 		}
 		if (time > 9){
 			time = 0;
 		}
-	}
-
-	
-	public void render(Graphics g){
-		g.drawImage(sprite, x, y, null);
-		g.setColor(Color.white);
-		//g.setFont(new Font("Aerial", 10, 10));
-		//g.drawString(String.valueOf(thisNumber), x - 5, y + 20);
+		}
 	}
 	
 }

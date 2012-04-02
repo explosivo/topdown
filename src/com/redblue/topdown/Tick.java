@@ -1,12 +1,14 @@
 package com.redblue.topdown;
 
 import com.redblue.topdown.entity.Josh;
+import com.redblue.topdown.screen.Camera;
 import com.redblue.topdown.screen.Level;
 
 public class Tick extends Thread{
 
 	Josh josh;
 	Level level;
+	Camera camera;
 	long lastUpdate = 0;
 	
 	Tick(Josh josh, Level level){
@@ -20,7 +22,7 @@ public class Tick extends Thread{
 					Topdown.updates ++;
 					josh.tick();
 					level.tick();
-			Thread.sleep(2);
+			Thread.sleep(7);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

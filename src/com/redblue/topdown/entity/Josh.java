@@ -1,9 +1,9 @@
 package com.redblue.topdown.entity;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
-import com.redblue.topdown.sprites.*;
-import com.redblue.topdown.*;
+import com.redblue.topdown.Input;
+import com.redblue.topdown.Topdown;
+import com.redblue.topdown.sprites.Sprites;
 
 public class Josh extends Creature{
 	int time;
@@ -22,9 +22,7 @@ public class Josh extends Creature{
 		this.sprites = sprites;
 		this.input = input;
 		
-		x = ((640/3) / 2) - 16;
-		y = ((480/3) / 2 ) - 32;
-		speed = 5;
+		speed = 0;
 		maxHealth = 10;
 		health = maxHealth;
 		sprite = sprites.getSprite(sprites.JOSHD1);
@@ -32,9 +30,14 @@ public class Josh extends Creature{
 	
 	public void loseHealth(int damageAmmount){
 		if (!hurt){
-			hurt = true;
+			hurt = true;						//make more better.
 			health -= damageAmmount;
 		}
+	}
+	
+	public void render(Graphics g){
+		if (visible)
+			g.drawImage(sprite, x, y, null);
 	}
 	
 	public void tick(){
@@ -56,6 +59,7 @@ public class Josh extends Creature{
 				}
 			}
 			if (input.downPressed){
+				y++;
 				time++;
 				if(time < 50) {
 					sprite = sprites.getSprite(3);
@@ -73,6 +77,7 @@ public class Josh extends Creature{
 					time = 0;
 			}
 			if (input.leftPressed){
+				x--;
 				time++;
 				if(time < 50) {
 					sprite = sprites.getSprite(sprites.JOSHL1);
@@ -90,6 +95,7 @@ public class Josh extends Creature{
 						time = 0;
 			}
 			if (input.rightPressed){
+				x++;
 				time++;
 				if(time < 50) {
 					sprite = sprites.getSprite(sprites.JOSHR1);
@@ -107,6 +113,7 @@ public class Josh extends Creature{
 					time = 0;
 			}
 			if (input.upPressed){
+				y--;
 				time++;
 				if(time < 50) {
 					sprite = sprites.getSprite(sprites.JOSHU1);
@@ -135,10 +142,5 @@ public class Josh extends Creature{
 				y ++;
 			visible = true;
 		}
-	}
-	
-	public void render(Graphics g){
-		if (visible)
-			g.drawImage(sprite, x, y, null);
 	}
 }

@@ -1,12 +1,19 @@
 package com.redblue.topdown;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JFrame;
 
 import com.redblue.topdown.entity.Josh;
-import com.redblue.topdown.screen.*;
+import com.redblue.topdown.screen.Camera;
+import com.redblue.topdown.screen.GameOverScreen;
+import com.redblue.topdown.screen.GuiOverlay;
+import com.redblue.topdown.screen.Level;
+import com.redblue.topdown.screen.MenuScreen;
+import com.redblue.topdown.screen.Screen;
 import com.redblue.topdown.sprites.Sprites;
 
 
@@ -14,9 +21,10 @@ public class Topdown extends Canvas implements Runnable{
 	private static final long serialVersionUID = 1L;
 	
 	public static final String name = "Topdown";
-	public static final String version = "Pre-Alpha 0.1";
-	static final int WIDTH = 640/3;
-	static final int HEIGHT = 480/3;
+	public static final String version = "Pre-Alpha 0.1a";
+	public static final int SCALE = 1;
+	public static final int WIDTH = 640;
+	public static final int HEIGHT = 480;
 	public static boolean running = false;
 	public static boolean paused = false;
 	public static boolean gameOver = false;
@@ -35,6 +43,10 @@ public class Topdown extends Canvas implements Runnable{
 	public static int updates = 0;
 	public static long counter;
 	
+	public static boolean triggerGameOver(){
+		return gameOver = true;
+	}
+	
 	public void start(){
 		if (!running){
 			requestFocus();
@@ -43,7 +55,7 @@ public class Topdown extends Canvas implements Runnable{
 			menu = new MenuScreen();
 			josh = new Josh(sprites, input);
 			level = new Level(sprites, input, josh);
-			level.initLevel(50, 50);
+			level.initLevel(100, 100);
 			guioverlay = new GuiOverlay(josh, input);
 			tick = new Thread(new Tick(josh, level));
 			new Thread(this).start();
@@ -67,6 +79,16 @@ public class Topdown extends Canvas implements Runnable{
 		}
 	}
 	
+	public void gameRender(){
+		dbg = image.createGraphics();
+		menu.render(dbg);
+		level.render(dbg);
+		dbg = image.createGraphics();
+		guioverlay.render(dbg);
+		if (gameOver)
+			gameover.render(dbg);
+		dbg.dispose();
+	}
 	/*public void gameUpdate(){
 		//updates ++;
 		if (!isFocusOwner()){
@@ -83,28 +105,14 @@ public class Topdown extends Canvas implements Runnable{
 	public void paintScreen(){
 		frames ++;
 		Graphics g = getGraphics();
-		g.drawImage(image, 0, 0, WIDTH * 3, HEIGHT * 3, null);
+		g.drawImage(image, 0, 0, 640,480, null);
 		g.dispose();
-	}
-	public void gameRender(){
-		dbg = image.createGraphics();
-		menu.render(dbg);
-		level.render(dbg);
-		josh.render(dbg);
-		guioverlay.render(dbg);
-		if (gameOver)
-			gameover.render(dbg);
-		dbg.dispose();
-	}
-	
-	public static boolean triggerGameOver(){
-		return gameOver = true;
 	}
 	
 	
 	public static void main(String[] args) {
 		Topdown topdown = new Topdown();
-		JFrame win = new JFrame("Topdown");
+		JFrame win = new JFrame(name + " " + version);
 		win.setLayout(new BorderLayout());
 		win.add(topdown, BorderLayout.CENTER);
 		win.setSize(640, 480);
@@ -115,5 +123,6 @@ public class Topdown extends Canvas implements Runnable{
 		
 		topdown.start();
 	}
+	
 
 }

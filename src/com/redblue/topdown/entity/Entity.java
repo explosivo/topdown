@@ -19,27 +19,27 @@ public class Entity {
 	boolean isOnScreen = false;
 	int speed;  
 	
-	public void render2(Screen screen, Graphics g){
-		screen.render(g);
+	public Image getSprite() {
+		return sprite;
+	}
+	
+	public boolean isOnScreen(){
+		return isOnScreen;
 	}
 	
 	public void render(Graphics g){
 		g.drawImage(sprite, x, y, null);
 	}
-	
-	public void tick(){
-	}
 
-	public Image getSprite() {
-		return sprite;
+	public void render2(Screen screen, Graphics g){
+		screen.render(g);
 	}
 
 	public void setSprite(BufferedImage sprite) {
 		this.sprite = sprite;
 	}
 	
-	public boolean isOnScreen(){
-		return isOnScreen;
+	public void tick(){
 	}
 	
 }

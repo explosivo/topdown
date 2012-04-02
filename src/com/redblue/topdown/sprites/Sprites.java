@@ -1,7 +1,6 @@
 package com.redblue.topdown.sprites;
 
 import java.awt.image.BufferedImage;
-//import java.awt.image.PixelGrabber;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -10,6 +9,7 @@ public class Sprites {
 	BufferedImage spriteSheet;
 	BufferedImage[] sprites = new BufferedImage[256];
 	int WIDTH, HEIGHT;
+	//int[][] pixels; //-- later
 	//PixelGrabber px;
 	
 	
@@ -57,6 +57,8 @@ public class Sprites {
 	//16x32
 	 
 	public final int GRASS1 = 12;
+	public final int BLACK = 26;
+	public final int WHITE  = 27;
 
 	//16x16
 	
@@ -72,11 +74,23 @@ public class Sprites {
 			
 			getGrass();
 			
+			getBlackandWhite();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Error - Sprites context: " + e);
 		}
 	}
+	
+	void getBlackandWhite(){
+		sprites[26] = spriteSheet.getSubimage(112, 1, 16, 16);
+		sprites[27] = spriteSheet.getSubimage(128, 1, 16, 16);
+	}
+	
+	void getGrass(){
+		sprites[12] = spriteSheet.getSubimage(96, 1, 16, 16);
+	}
+	
 	void getJosh(){
 		for(int i = 0; i < 6; i++){
 			sprites[i] = spriteSheet.getSubimage((i * 16) + 1, 1, 15, 31);
@@ -86,6 +100,9 @@ public class Sprites {
 		}
 	}
 	
+	public BufferedImage getSprite(int i){
+		return sprites[i];
+	}
 	void getZombie(){
 		for(int i = 13; i < 19; i++){
 			sprites[i] = spriteSheet.getSubimage(((i - 13) * 16) + 1, 65, 15, 31);
@@ -93,13 +110,6 @@ public class Sprites {
 		for(int i = 19; i < 25; i++){
 			sprites[i] = spriteSheet.getSubimage(((i - 19)* 16) + 1, 97, 15, 31);
 		}
-	}
-	
-	void getGrass(){
-		sprites[12] = spriteSheet.getSubimage(96, 1, 16, 16);
-	}
-	public BufferedImage getSprite(int i){
-		return sprites[i];
 	}
 	
 }

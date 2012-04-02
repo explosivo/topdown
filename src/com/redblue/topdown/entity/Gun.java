@@ -6,6 +6,9 @@ import java.awt.Graphics;
 public class Gun extends Weapon{
 	
 	static int number = 0;
+	public boolean alive = true;
+	
+	int time = 0;
 	
 	public Gun(int n){
 		number = n;
@@ -13,19 +16,22 @@ public class Gun extends Weapon{
 		speed = 2;
 	}
 	
-	public void tick(){
-		
-		if(x >= 0 && x <= 640/3 && y >= 0 && y <= 480/3){
-			isOnScreen = true;
-		}
-		x = 10;
-		y = 80;
-	}
-	public void render(Graphics g){
-		g.setColor(Color.ORANGE);
-		g.fillRect(x, y, 3, 1);
-	}
 	public boolean isOnScreen() {
 		return isOnScreen;
+	}
+	public void render(Graphics g){
+		if (alive){
+			g.setColor(Color.white);
+			g.fillRect(0, 0, 640, 480);
+		}
+	}
+	public void tick(){
+		time++;
+		if (alive){
+			if(x >= 0 && x <= 640/3 && y >= 0 && y <= 480/3){
+				isOnScreen = true;
+			}
+			alive = false;
+		}
 	}
 }
